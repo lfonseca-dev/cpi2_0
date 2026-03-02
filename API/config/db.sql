@@ -1,0 +1,132 @@
+DROP DATABASE cpi2_0;
+
+CREATE DATABASE IF NOT EXISTS cpi2_0; 
+
+USE cpi2_0;
+
+DROP TABLE IF EXISTS usuario; 
+CREATE TABLE IF NOT EXISTS usuario(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(30) UNIQUE NOT NULL,
+    senha VARCHAR(255) UNIQUE NOT NULL,
+    nivel_acesso ENUM("PRODUCAO", "USER", "ADMIN") DEFAULT "USER",
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+);
+
+DROP TABLE IF EXISTS categoria; 
+CREATE TABLE IF NOT EXISTS categoria(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) NOT NULL
+);
+
+DROP TABLE IF EXISTS produto; 
+CREATE TABLE IF NOT EXISTS produto(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) NOT NULL,
+    bitola FLOAT NOT NULL,
+    peso FLOAT NULL,
+    categoria INT UNSIGNED NOT NULL,
+    FOREIGN KEY (categoria) REFERENCES categoria(id)
+);
+
+DROP TABLE IF EXISTS fornecedor; 
+CREATE TABLE IF NOT EXISTS fornecedor(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    obs VARCHAR(255) NULL
+);
+
+DROP TABLE IF EXISTS operador; 
+CREATE TABLE IF NOT EXISTS operador(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    funcao VARCHAR(100) NOT NULL
+);
+
+DROP TABLE IF EXISTS engenheiro; 
+CREATE TABLE IF NOT EXISTS engenheiro(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL
+);
+
+DROP TABLE IF EXISTS responsavel; 
+CREATE TABLE IF NOT EXISTS responsavel(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    obs VARCHAR(255) NULL,
+    engenheiro INT UNSIGNED NOT NULL,
+    FOREIGN KEY (engenheiro) REFERENCES engenheiro(id)
+);
+
+DROP TABLE IF EXISTS destino;
+CREATE TABLE IF NOT EXISTS destino(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100)
+);
+
+DROP TABLE IF EXISTS local_estoque; 
+CREATE TABLE IF NOT EXISTS local_estoque(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    status ENUM("LIVRE", "OCUPADO"),
+    obs VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS nota_fiscal; 
+CREATE TABLE IF NOT EXISTS nota_fiscal(
+    codigo VARCHAR(50) PRIMARY KEY NOT NULL,
+    quant_rolos INT NOT NULL,
+    peso FLOAT NOT NULL,
+    data DATE NOT NULL,
+    certificado VARCHAR(50) NOT NULL,
+    obs VARCHAR(255) NULL,
+    fornecedor INT UNSIGNED NOT NULL,
+    FOREIGN KEY (fornecedor) REFERENCES fornecedor(id)
+);
+
+DROP TABLE IF EXISTS entrada_estoque; 
+CREATE TABLE IF NOT EXISTS entrada_estoque(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    numero_bobina INT NOT NULL,
+    carbono FLOAT NOT NULL,
+    corrida VARCHAR(30) NOT NULL,
+    peso FLOAT NOT NULL,
+    nota_fiscal VARCHAR(50) NOT NULL,
+    local_estoque INT UNSIGNED NOT NULL,
+    produto INT UNSIGNED NOT NULL,
+    FOREIGN KEY (nota_fiscal) REFERENCES nota_fiscal(codigo),
+    FOREIGN KEY (local_estoque) REFERENCES local_estoque(id),
+    FOREIGN KEY (produto) REFERENCES produto(id)
+);
+
+DROP TABLE IF EXISTS lote;
+
+CREATE TABLE IF NOT EXISTS lote(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    numero INT UNIQUE NOT NULL,
+    produto_final INT UNSIGNED NOT NULL,
+    produto_mp INT UNSIGNED NOT NULL,
+    status ENUM("EM PRODUCAO", "FINALIZADO"),
+    FOREIGN KEY (produto_final) REFERENCES produto(id),
+    FOREIGN KEY (produto_mp) REFERENCES produto(id)
+);
+
+DROP TABLE IF EXISTS ensaio;
+
+CREATE TABLE IF NOT EXISTS ensaio(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    num_ensaio INT UNSIGNED NOT NULL,
+    lote INT UNSIGNED NOT NULL,
+    responsavel INT UNSIGNED NOT NULL,
+    massa FLOAT NULL,
+    lr INT UNSIGNED NULL,
+    le INT UNSIGNED NULL,
+    lr_le FLOAT NULL,
+    lu INT UNSIGNED NULL,
+    lo INT UNSIGNED NULL,
+    alng FLOAT NULL,
+    dobr ENUM("NAO", "OK") NULL,
+    caracteristicaGEO ENUM("NAO", "OK") NULL,
+    ocorrencia VARCHAR(255) NULL,
+    FOREIGN KEY (lote) REFERENCES lote(id),
+    FOREIGN KEY (responsavel) REFERENCES responsavel(id)
+);
