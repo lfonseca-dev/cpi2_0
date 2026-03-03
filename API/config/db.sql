@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS usuario(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 );
 
+INSERT INTO usuario(nome, senha, nivel_acesso) VALUES("Amorim", "bet777", "PRODUCAO");
+
 DROP TABLE IF EXISTS categoria; 
 CREATE TABLE IF NOT EXISTS categoria(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
