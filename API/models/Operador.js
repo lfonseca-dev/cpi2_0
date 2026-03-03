@@ -15,7 +15,7 @@ const Operador = {
         try{
             const [operador] = await pool.execute(`SELECT * FROM operador WHERE id= ?;`, [id]);
 
-            return operador[0];
+            return operador;
         }catch (error) {
             throw error;
         }
