@@ -19,4 +19,4 @@ api.listen(PORT, ()=>{
 
 api.get("/", (_, res)=>{
     res.send("HELLO WORLD!");
-})
+});

@@ -10,7 +10,7 @@ const pool = mysql2.createPool({
     connectionLimit: 10,
     maxIdle: 10,
     idleTimeout: 60000,
-    timezone: "Z"
+    timezone: "-03:00"
 });
 
 export default pool.promise();
