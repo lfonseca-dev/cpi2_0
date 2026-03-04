@@ -1,5 +1,6 @@
 import Usuario from "../models/Usuario.js";
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
+import crypto from "crypto";
 
 const UsuarioController = {
   async getUsuarios(_, res) {
@@ -53,7 +54,14 @@ const UsuarioController = {
           msg: "Todos os campos devem ser preenchidos!",
         });
       }
-      const encryptedPass = await bcrypt.hash(senha, 12);
+
+      const encryptedPass = await argon2.hash(senha, {
+        type: argon2.argon2id,
+        memoryCost: 2 ** 16,
+        parallelism: 4,
+        timeCost: 3,
+        salt: crypto.randomBytes(16),
+      });
 
       const result = await Usuario.addUsuario(
         nome,
@@ -104,7 +112,13 @@ const UsuarioController = {
       let novaSenha = null ?? user.senha;
 
       if (senha) {
-        novaSenha = await bcrypt.hash(senha, 12);
+        novaSenha = await argon2.hash(senha, {
+          type: argon2.argon2id,
+          memoryCost: 2 ** 16,
+          parallelism: 4,
+          timeCost: 3,
+          salt: crypto.randomBytes(16),
+        });
       }
 
       let novoNivel_acesso = nivel_acesso ?? user.nivel_acesso;
@@ -139,7 +153,7 @@ const UsuarioController = {
 
       const user = await Usuario.getUsuarioById(id);
 
-      if(!user){
+      if (!user) {
         return res.status(404).json({
           status: 404,
           msg: "Usuario não encontrado!",
@@ -153,7 +167,6 @@ const UsuarioController = {
         msg: "Usuario deletado com sucesso!",
         result,
       });
-
     } catch (error) {
       res.status(500).json({
         status: 500,
