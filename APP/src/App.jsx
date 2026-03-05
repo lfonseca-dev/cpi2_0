@@ -1,10 +1,16 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+
 function App() {
   return (
-    <>
-      <h1 className="font-bold text-2xl p-4">
-        Hello World!
-      </h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+
+        <Route path='*' element={<h1>ERRO 404</h1>} />
+        <Route path='/' element={<Home />} />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 
