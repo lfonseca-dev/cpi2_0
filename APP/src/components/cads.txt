@@ -1,0 +1,9 @@
+*user
+*categoria
+*produto
+*fornecedor
+*operador
+*engenheiro
+*responsavel
+*destino
+*local_estoque

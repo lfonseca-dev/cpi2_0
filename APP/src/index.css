@@ -1,1 +1,31 @@
 @import "tailwindcss";
+
+.shadow {
+    box-shadow: 0 0 15px black;
+}
+.link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    transition: .3s;
+    gap: 10px;
+}
+.link:hover {
+    color: red;
+}
+.link:hover::before {
+    background: red; 
+    width: 100%;
+    transition: .3s;
+}
+.link::before {
+    content: '';
+    position: absolute;
+
+    background: black;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+}
