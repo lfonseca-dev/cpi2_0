@@ -49,6 +49,38 @@ const OperadorController = {
         }
     },
 
+    async getOperadorByName(req, res){
+        try{
+            const nome = req.params.nome;
+
+            if(!nome){
+                return res.status(400).json({
+                status: 400,
+                msg: "Nome não informado!",
+            });
+            }
+
+            const operador = await Operador.getOperadorByName(nome);
+
+            if (!operador.length) {
+                return res.status(404).json({
+                    status: 404,
+                    msg: "Nenhum operador encontrado!",
+                });
+            }
+
+            return res.status(200).json({
+            status: 200,
+            operador,
+            });
+        }catch (error){
+            res.status(500).json({
+                status: 500,
+                data: error.message,
+            });
+        }
+    },
+
     async addOperador(req, res){
         try{
             const {nome, funcao} = req.body;

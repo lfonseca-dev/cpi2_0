@@ -21,6 +21,16 @@ const Operador = {
         }
     },
 
+    async getOperadorByName(nome){
+        try{
+            const [operadores] = await pool.execute(`SELECT * FROM operador WHERE nome LIKE ?;`, [`${nome}%`]);
+
+            return operadores;
+        }catch (error){
+            throw error;
+        }
+    },
+
     async addOperador(nome, funcao) {
         try{
             const [result] = await pool.execute(`INSERT INTO operador(nome, funcao) VALUES (?, ?);`, [nome, funcao]);

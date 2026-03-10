@@ -21,6 +21,16 @@ const Engenheiro = {
         }
     },
 
+    async getEngenheiroByName(nome){
+        try{
+            const [engenheiros] = await pool.execute(`SELECT * FROM engenheiro WHERE nome LIKE ?;`, [`${nome}%`]);
+
+            return engenheiros;
+        }catch (error) {
+            throw error;
+        }
+    },
+
     async addEngenheiro(nome) {
         try{
             const [result] = await pool.execute(`INSERT INTO engenheiro(nome) VALUES (?);`, [nome]);

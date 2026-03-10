@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS destino(
 DROP TABLE IF EXISTS local_estoque; 
 CREATE TABLE IF NOT EXISTS local_estoque(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100),
     status ENUM("LIVRE", "OCUPADO"),
     obs VARCHAR(255)
 );
