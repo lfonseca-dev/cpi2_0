@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import "dotenv/config";
 
-import RouterUsuario from './routes/usuario.js'
+import RouterUsuario from './routes/usuario.js';
+import RouterCategoria from './routes/categoria.js';
 
 const PORT = process.env.API_PORT;
 const api = express();
@@ -11,6 +12,7 @@ api.use(express.json());
 api.use(cors());
 
 api.use('/api/usuario', RouterUsuario)
+api.use('/api/categoria', RouterCategoria)
 
 api.listen(PORT, ()=>{
     console.log(`API opened at http://localhost:${PORT}`);

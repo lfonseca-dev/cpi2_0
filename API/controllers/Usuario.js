@@ -16,7 +16,7 @@ const UsuarioController = {
         users,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         status: 500,
         error: error.message,
       });
@@ -40,7 +40,7 @@ const UsuarioController = {
         user,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         status: 500,
         error: error.message,
       });
@@ -77,7 +77,7 @@ const UsuarioController = {
         result,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         status: 500,
         error: error.message,
       });
@@ -129,7 +129,7 @@ const UsuarioController = {
         token,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         status: 500,
         error: error.message,
       });
@@ -194,7 +194,7 @@ const UsuarioController = {
         result,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         status: 500,
         error: error.message,
       });
@@ -222,7 +222,7 @@ const UsuarioController = {
         result,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         status: 500,
         error: error.message,
       });
