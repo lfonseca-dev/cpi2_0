@@ -15,7 +15,7 @@ const Estoque = {
         try{
             const [estoque] = await pool.execute(`SELECT * FROM local_estoque WHERE id= ?;`, [id]);
 
-            return estoque;
+            return estoque[0];
         }catch (error) {
             throw error;
         }
@@ -23,10 +23,10 @@ const Estoque = {
 
     async getEstoqueByName(descricao){
         try{
-            const [estoques] = await pool.execute(
+            const [estoque] = await pool.execute(
                 `SELECT * FROM local_estoque WHERE descricao LIKE ?;`, [`%${descricao}%`]);
 
-            return estoques;
+            return estoque[0];
         }catch (error) {
             throw error;
         }

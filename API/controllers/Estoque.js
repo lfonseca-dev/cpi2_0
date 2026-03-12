@@ -5,7 +5,7 @@ const EstoqueController = {
         try{
             const estoques = await Estoque.getEstoques();
 
-            if(!estoques){
+            if(!estoques || estoques.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Estoques não encontrado!",
@@ -28,9 +28,9 @@ const EstoqueController = {
         try{
             const id = req.params.id;
 
-            const estoques = await Estoque.getEstoqueById(id);
+            const estoque = await Estoque.getEstoqueById(id);
 
-            if(!estoques){
+            if(!estoque || estoque.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Estoques não encontrado!",
@@ -39,7 +39,7 @@ const EstoqueController = {
 
             return res.status(200).json({
                 status: 200,
-                data: estoques,
+                data: estoque,
             });
         }catch (error) {
             res.status(500).json({
@@ -62,7 +62,7 @@ const EstoqueController = {
 
             const estoque = await Estoque.getEstoqueByName(descricao);
 
-            if (!estoque.length) {
+            if (!estoque || estoque.length === 0) {
                 return res.status(404).json({
                     status: 404,
                     msg: "Nenhum estoque encontrado!",
@@ -94,7 +94,7 @@ const EstoqueController = {
 
             const estoque = await Estoque.getEstoqueByStatus(status);
 
-            if (!estoque.length) {
+            if (!estoque || estoque.length === 0) {
                 return res.status(404).json({
                     status: 404,
                     msg: "Nenhum estoque encontrado!",
@@ -144,7 +144,7 @@ const EstoqueController = {
             const {descricao, status, obs} = req.body;
             const id = req.params.id;
 
-            if(!descricao){
+            if(!descricao && !status){
                 return res.status(400).json({
                     status: 400,
                     msg: "Nenhum campo foi enviado para atualização!",
@@ -153,7 +153,7 @@ const EstoqueController = {
 
             const estoque = await Estoque.getEstoqueById(id);
 
-            if(!estoque){
+            if(!estoque || estoque.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Estoque não encontrado!",
@@ -185,7 +185,7 @@ const EstoqueController = {
 
             const estoque = await Estoque.getEstoqueById(id);
 
-            if(!estoque){
+            if(!estoque || estoque.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Estoque não encontrado!",

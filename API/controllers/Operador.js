@@ -5,7 +5,7 @@ const OperadorController = {
         try{
             const operadores = await Operador.getOperadores();
 
-            if(!operadores){
+            if(!operadores || operadores.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Operadores não encontrado!",
@@ -30,7 +30,7 @@ const OperadorController = {
 
             const operador = await Operador.getOperadorById(id);
 
-            if(!operador){
+            if(!operador || operador.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Operador não encontrado!",
@@ -62,7 +62,7 @@ const OperadorController = {
 
             const operador = await Operador.getOperadorByName(nome);
 
-            if (!operador.length) {
+            if (!operador || operador.length === 0) {
                 return res.status(404).json({
                     status: 404,
                     msg: "Nenhum operador encontrado!",
@@ -112,7 +112,7 @@ const OperadorController = {
             const {nome, funcao} = req.body;
             const id = req.params.id;
 
-            if(!nome || !funcao){
+            if(!nome && !funcao){
                 return res.status(400).json({
                 status: 400,
                 msg: "Nenhum campo foi enviado para atualização!",
@@ -121,7 +121,7 @@ const OperadorController = {
 
             const operador = await Operador.getOperadorById(id);
 
-            if(!operador){
+            if(!operador || operador.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Operador não encontrado!",
@@ -152,7 +152,7 @@ const OperadorController = {
 
             const operador = await Operador.getOperadorById(id);
 
-            if(!operador){
+            if(!operador || operador.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Operador não encontrado!",

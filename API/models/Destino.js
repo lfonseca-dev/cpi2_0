@@ -15,7 +15,7 @@ const Destino = {
         try{
             const [destino] = await pool.execute(`SELECT * FROM destino WHERE id= ?;`, [id]);
             
-            return destino;
+            return destino[0];
         }catch (error) {
             throw error;
         }
@@ -25,7 +25,7 @@ const Destino = {
         try{
             const [destinos] = await pool.execute(`SELECT * FROM destino WHERE descricao LIKE ?;`, [`${descricao}%`]);
             
-            return destinos;
+            return destinos[0];
         }catch (error) {
             throw error;
         }

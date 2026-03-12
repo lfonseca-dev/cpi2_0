@@ -1,20 +1,20 @@
-import Destino from "../models/Destino.js";
+import Lote from "../models/Lote.js";
 
-const DestinoController = {
-    async getDestinos(_, res) {
+const LoteController = {
+    async getLotes(_, res) {
         try{
-            const destinos = await Destino.getDestinos();
+            const lotes = await Lote.getLotes();
 
-            if(!destinos || destinos.length === 0){
+            if(!lotes || lotes.length === 0){
                 return res.status(404).json({
                     status: 404,
-                    msg: "Destinos não encontrado!",
+                    msg: "Lotes não encontrado!",
                 });
             }
 
             return res.status(200).json({
                 status: 200,
-                destinos,
+                lotes,
             });
         }catch (error) {
             res.status(500).json({
@@ -24,22 +24,22 @@ const DestinoController = {
         }
     },
 
-    async getDestinoById(req, res) {
+    async getLoteById(req, res) {
         try{
             const id = req.params.id;
 
-            const destinos = await Destino.getDestinoById(id);
+            const lote = await Lote.getLoteById(id);
 
-            if(!destinos || destinos.length === 0){
+            if(!lote || lote.length === 0){
                 return res.status(404).json({
                     status: 404,
-                    msg: "Destinos não encontrado!",
+                    msg: "Lote não encontrado!",
                 });
             }
 
             return res.status(200).json({
                 status: 200,
-                data: destinos,
+                lote,
             });
         }catch (error) {
             res.status(500).json({
@@ -49,31 +49,31 @@ const DestinoController = {
         }
     },
 
-    async getDestinoByName(req, res){
+    async getLoteByNum(req, res) {
         try{
-            const descricao = req.params.descricao;
+            const numero = req.params.numero;
 
-            if(!descricao){
+            if(!numero){
                 return res.status(400).json({
                 status: 400,
-                msg: "Descrição não informado!",
+                msg: "Número não informado!",
             });
             }
 
-            const destino = await Destino.getDestinoByName(descricao);
+            const lote = await Lote.getLoteByNum(numero);
 
-            if (!destino || destino.length === 0) {
+            if(!lote || lote.length === 0){
                 return res.status(404).json({
                     status: 404,
-                    msg: "Nenhum destino encontrado!",
+                    msg: "Lote não encontrado!",
                 });
             }
 
             return res.status(200).json({
-            status: 200,
-            destino,
+                status: 200,
+                lote,
             });
-        }catch (error){
+        }catch (error) {
             res.status(500).json({
                 status: 500,
                 data: error.message,
@@ -81,22 +81,22 @@ const DestinoController = {
         }
     },
 
-    async addDestino(req, res){
+    async addLote(req, res) {
         try{
-            const {descricao} = req.body;
+            const {numero, produto_final, produto_mp, status} = req.body;
 
-            if(!descricao){
+            if(!numero || !produto_final || !produto_mp || !status){
                 return res.status(400).json({
                 status: 400,
                 msg: "Todos os campos devem ser preenchidos!",
                 });
             }
 
-            const result = await Destino.addDestino(descricao);
+            const result = await Lote.addLote(numero, produto_final, produto_mp, status);
 
             return res.status(201).json({
                 status: 201,
-                msg: "Destino criado com sucesso!",
+                msg: "Lote criado com sucesso!",
                 data: result,
             });
         }catch (error) {
@@ -107,34 +107,37 @@ const DestinoController = {
         }
     },
 
-    async updateDestino(req, res){
+    async updateLote(req, res) {
         try{
-            const {descricao} = req.body;
+            const {numero, produto_final, produto_mp, status} = req.body;
             const id = req.params.id;
 
-            if(!descricao){
+            if(!numero && !produto_final && !produto_mp && !status){
                 return res.status(400).json({
                 status: 400,
                 msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
-            const destino = await Destino.getDestinoById(id);
+            const lote = Lote.getLoteById(id);
 
-            if(!destino || destino.length === 0){
+            if(!lote || lote.length === 0){
                 return res.status(404).json({
                     status: 404,
-                    msg: "Destino não encontrado!",
+                    msg: "Lote não encontrado!",
                 });
             }
 
-            let updatedDescricao = descricao ?? destino.descricao;
+            let updateNumero = numero ?? lote.numero;
+            let updateProduto_f = produto_final ?? lote.produto_final;
+            let updateProduto_mp = produto_mp ?? lote.produto_mp;
+            let updateStatus = status ?? lote.status;
 
-            const result = await Destino.updateDestino(updatedDescricao.trim(), id);
+            const result = await Lote.updateLote(updateNumero, updateProduto_f, updateProduto_mp, updateStatus, id);
 
             return res.status(200).json({
                 status: 200,
-                msg: "Destino atualizado com sucesso!",
+                msg: "Lote atualizado com sucesso!",
                 data: result,
             });
         }catch (error) {
@@ -145,24 +148,24 @@ const DestinoController = {
         }
     },
 
-    async deleteDestino(req, res){
+    async deleteLote(req, res) {
         try{
             const id = req.params.id;
 
-            const destino = await Destino.getDestinoById(id);
+            const lote = Lote.getLoteById(id);
 
-            if(!destino || destino.length === 0){
+            if(!lote || lote.length === 0){
                 return res.status(404).json({
                     status: 404,
-                    msg: "Destino não encontrado!",
+                    msg: "Lote não encontrado!",
                 });
             }
 
-            const result = await Destino.deleteDestino(id);
+            const result = await Lote.deleteLote(id);
 
             return res.status(200).json({
                 status: 200,
-                msg: "Destino deletado com sucesso!",
+                msg: "Lote deletado com sucesso!",
                 data: result,
             });
         }catch (error) {
@@ -172,6 +175,7 @@ const DestinoController = {
             });
         }
     },
+
 }
 
-export default DestinoController;
+export default LoteController;

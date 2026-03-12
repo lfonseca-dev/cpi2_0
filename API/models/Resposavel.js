@@ -15,7 +15,7 @@ const Resposavel = {
         try{
             const [responsavel] = await pool.execute(`SELECT * FROM responsavel WHERE id= ?;`, [id]);
 
-            return responsavel;
+            return responsavel[0];
         }catch (error) {
             throw error;
         }
@@ -25,7 +25,7 @@ const Resposavel = {
         try{
             const [responsavel] = await pool.execute(`SELECT * FROM responsavel WHERE nome LIKE ?;`, [`${nome}%`]);
 
-            return responsavel;
+            return responsavel[0];
         }catch (error) {
             throw error;
         }

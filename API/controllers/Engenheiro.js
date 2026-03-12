@@ -5,7 +5,7 @@ const EngenheiroController = {
         try{
             const engenheiros = await Engenheiro.getEngenheiros();
 
-            if(!engenheiros){
+            if(!engenheiros || engenheiros.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Engenheiros não encontrado!",
@@ -30,7 +30,7 @@ const EngenheiroController = {
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
-            if(!engenheiro){
+            if(!engenheiro || engenheiro.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Engenheiro não encontrado!",
@@ -62,7 +62,7 @@ const EngenheiroController = {
 
             const engenheiro = await Engenheiro.getEngenheiroByName(nome);
 
-            if (!engenheiro.length) {
+            if (!engenheiro || engenheiro.length === 0) {
                 return res.status(404).json({
                     status: 404,
                     msg: "Nenhum engenheiro encontrado!",
@@ -121,7 +121,7 @@ const EngenheiroController = {
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
-            if(!engenheiro){
+            if(!engenheiro || engenheiro.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Engenheiro não encontrado!",
@@ -151,7 +151,7 @@ const EngenheiroController = {
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
-            if(!engenheiro){
+            if(!engenheiro || engenheiro.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Engenheiro não encontrado!",

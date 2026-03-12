@@ -15,7 +15,7 @@ const Operador = {
         try{
             const [operador] = await pool.execute(`SELECT * FROM operador WHERE id= ?;`, [id]);
 
-            return operador;
+            return operador[0];
         }catch (error) {
             throw error;
         }
@@ -23,9 +23,9 @@ const Operador = {
 
     async getOperadorByName(nome){
         try{
-            const [operadores] = await pool.execute(`SELECT * FROM operador WHERE nome LIKE ?;`, [`${nome}%`]);
+            const [operadore] = await pool.execute(`SELECT * FROM operador WHERE nome LIKE ?;`, [`${nome}%`]);
 
-            return operadores;
+            return operadore[0];
         }catch (error){
             throw error;
         }

@@ -5,7 +5,7 @@ const ResponsavelController = {
         try{
             const responsaveis = await Resposavel.getResponsaveis();
 
-            if(!responsaveis){
+            if(!responsaveis || responsaveis.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Rsponsáveis não encontrado!",
@@ -30,7 +30,7 @@ const ResponsavelController = {
 
             const responsavel = await Resposavel.getResponsavelById();
 
-            if(!responsavel){
+            if(!responsavel || responsavel.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Responsável não encontrado!",
@@ -62,7 +62,7 @@ const ResponsavelController = {
 
             const responsavel = await Resposavel.getResponsavelByName(nome);
 
-            if (!responsavel.length) {
+            if (!responsavel || responsavel.length === 0) {
                 return res.status(404).json({
                     status: 404,
                     msg: "Nenhum responsável encontrado!",
@@ -112,7 +112,7 @@ const ResponsavelController = {
             const {nome, obs, engenheiro} = req.body;
             const id = req.params.id;
 
-            if(!nome || !funcao){
+            if(!nome && !funcao){
                 return res.status(400).json({
                 status: 400,
                 msg: "Nenhum campo foi enviado para atualização!",
@@ -121,7 +121,7 @@ const ResponsavelController = {
 
             const responsavel = await Resposavel.updateResponsavel(id);
 
-            if(!responsavel){
+            if(!responsavel || responsavel.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Responsável não encontrado!",
@@ -151,9 +151,9 @@ const ResponsavelController = {
         try{
             const id = req.params.id;
 
-            const operador = await Resposavel.getResponsavelById(id);
+            const responsavel = await Resposavel.getResponsavelById(id);
 
-            if(!operador){
+            if(!responsavel || responsavel.length === 0){
                 return res.status(404).json({
                     status: 404,
                     msg: "Responsável não encontrado!",

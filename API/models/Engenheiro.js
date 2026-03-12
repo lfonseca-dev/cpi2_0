@@ -15,7 +15,7 @@ const Engenheiro = {
         try{
             const [engenheiro] = await pool.execute(`SELECT * FROM engenheiro WHERE id= ?;`, [id]);
 
-            return engenheiro;
+            return engenheiro[0];
         }catch (error) {
             throw error;
         }
@@ -23,9 +23,9 @@ const Engenheiro = {
 
     async getEngenheiroByName(nome){
         try{
-            const [engenheiros] = await pool.execute(`SELECT * FROM engenheiro WHERE nome LIKE ?;`, [`${nome}%`]);
+            const [engenheiro] = await pool.execute(`SELECT * FROM engenheiro WHERE nome LIKE ?;`, [`${nome}%`]);
 
-            return engenheiros;
+            return engenheiro[0];
         }catch (error) {
             throw error;
         }
