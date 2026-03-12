@@ -11,13 +11,12 @@ const UsuarioController = {
       const users = await Usuario.getUsuarios();
 
       return res.status(200).json({
-        status: 200,
-        msg: "Todos os usuarios consultados com sucesso!",
-        users,
+        msg: "OK!",
+        data: users,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -29,19 +28,17 @@ const UsuarioController = {
 
       if (!user) {
         return res.status(404).json({
-          status: 404,
           msg: "Usuario não encontrado!",
         });
       }
 
       return res.status(200).json({
-        status: 200,
-        msg: "Usuario consultado com sucesso!",
-        user,
+        msg: "OK!",
+        data: user,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -53,7 +50,6 @@ const UsuarioController = {
 
       if (!nome || !senha || !nivel_acesso) {
         return res.status(400).json({
-          status: 400,
           msg: "Todos os campos devem ser preenchidos!",
         });
       }
@@ -72,13 +68,12 @@ const UsuarioController = {
       );
 
       return res.status(201).json({
-        status: 201,
         msg: "Usuario criado com sucesso!",
         result,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -89,7 +84,6 @@ const UsuarioController = {
 
       if (!nome || !senha) {
         return res.status(400).json({
-          status: 400,
           msg: "Todos os campos devem ser preenchidos!",
         });
       }
@@ -98,7 +92,6 @@ const UsuarioController = {
 
       if (!user) {
         return res.status(404).json({
-          status: 404,
           msg: "Usuário não encontrado!",
         });
       }
@@ -107,30 +100,28 @@ const UsuarioController = {
 
       if (!verifySenha) {
         return res.status(400).json({
-          status: 400,
           msg: "Senha inválida!",
         });
       }
 
       const token = jwt.sign(
-      {
-        id: user.id,
-        nome: user.nome
-      }, 
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES
-      }
-    );
+        {
+          id: user.id,
+          nome: user.nome,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: process.env.JWT_EXPIRES,
+        },
+      );
 
       return res.status(200).json({
-        status: 200,
         msg: "OK",
         token,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -139,21 +130,19 @@ const UsuarioController = {
   async updateUsuario(req, res) {
     try {
       const { nome, senha, nivel_acesso } = req.body;
-      const id = req.params.id;
-
-      if (!nome && !senha && !nivel_acesso) {
-        return res.status(400).json({
-          status: 400,
-          msg: "Nenhum dado enviado para alteração!",
-        });
-      }
+      const { id } = req.params;
 
       const user = await Usuario.getUsuarioById(id);
 
       if (!user) {
         return res.status(404).json({
-          status: 404,
           msg: "Usuario não encontrado!",
+        });
+      }
+
+      if (!nome && !senha && !nivel_acesso) {
+        return res.status(400).json({
+          msg: "Nenhum dado enviado para alteração!",
         });
       }
 
@@ -163,17 +152,14 @@ const UsuarioController = {
         novoNome = user.nome;
       }
 
-      let novaSenha = null ?? user.senha;
-
-      if (senha) {
-        novaSenha = await argon2.hash(senha, {
-          type: argon2.argon2id,
-          memoryCost: 2 ** 16,
-          parallelism: 4,
-          timeCost: 3,
-          salt: crypto.randomBytes(16),
-        });
-      }
+      const novaSenha = senha
+        ? await argon2.hash(senha + PEPPER, {
+            type: argon2.argon2id,
+            memoryCost: 2 ** 16,
+            parallelism: 4,
+            timeCost: 3,
+          })
+        : user.senha;
 
       let novoNivel_acesso = nivel_acesso ?? user.nivel_acesso;
 
@@ -195,7 +181,7 @@ const UsuarioController = {
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -203,13 +189,12 @@ const UsuarioController = {
 
   async deleteUsuario(req, res) {
     try {
-      const id = req.params.id;
+      const { id } = req.params;
 
       const user = await Usuario.getUsuarioById(id);
 
       if (!user) {
         return res.status(404).json({
-          status: 404,
           msg: "Usuario não encontrado!",
         });
       }
@@ -217,13 +202,12 @@ const UsuarioController = {
       const result = await Usuario.deleteUsuario(id);
 
       return res.status(200).json({
-        status: 200,
         msg: "Usuario deletado com sucesso!",
         result,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }

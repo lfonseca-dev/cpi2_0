@@ -6,13 +6,12 @@ const CategoriaController = {
       const categorias = await Categoria.getAllCategorias();
 
       res.status(200).json({
-        status: 200,
-        msg: "Todas as categorias consultadas com sucesso!",
-        categorias,
+        msg: "OK!",
+        data: categorias,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -25,19 +24,17 @@ const CategoriaController = {
 
       if (!categoria) {
         return res.status(404).json({
-          status: 404,
           msg: "Categoria não encontrada!",
         });
       }
 
       return res.status(200).json({
-        status: 200,
-        msg: "OK",
-        categoria,
+        msg: "OK!",
+        data: categoria,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -46,29 +43,21 @@ const CategoriaController = {
     try {
       const { descricao } = req.params;
 
-      if (!descricao) {
-        return res.status(400).json({
-          status: 400,
-          msg: "Descrição é obrigatória",
-        });
-      }
-
       const categoria = await Categoria.getCategoriaByDesc(descricao);
 
       if (!categoria) {
         return res.status(404).json({
-          status: 404,
           msg: "Categoria não encontrada",
         });
       }
 
       return res.status(200).json({
-        status: 200,
-        categoria,
+        msg: "OK!",
+        data: categoria,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -80,21 +69,19 @@ const CategoriaController = {
 
       if (!descricao) {
         return res.status(400).json({
-          status: 400,
           msg: "Todos os campos devem ser preenchidos!",
         });
       }
 
       const result = await Categoria.addCategoria(descricao);
 
-      return res.status(200).json({
-        status: 200,
+      return res.status(201).json({
         msg: "Categoria criada com sucesso!",
         data: result,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -109,14 +96,12 @@ const CategoriaController = {
 
       if (!categoria) {
         return res.status(404).json({
-          status: 404,
           msg: "Categoria não encontrada!",
         });
       }
 
       if (!descricao) {
         return res.status(400).json({
-          status: 400,
           msg: "Todos os campos devem ser preenchidos!",
         });
       }
@@ -132,7 +117,7 @@ const CategoriaController = {
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
@@ -146,7 +131,6 @@ const CategoriaController = {
 
       if (!categoria) {
         return res.status(404).json({
-          status: 404,
           msg: "Categoria não encontrada!",
         });
       }
@@ -154,13 +138,12 @@ const CategoriaController = {
       const result = await Categoria.deleteCategoria(id);
 
       return res.status(200).json({
-        status: 200,
         msg: "Categoria deletada com sucesso!",
         result,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 500,
+        msg: "Erro interno do servidor!",
         error: error.message,
       });
     }
