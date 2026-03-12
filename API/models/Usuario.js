@@ -32,6 +32,18 @@ const Usuario = {
       throw error;
     }
   },
+
+  async getUsuarioByNome(nome) {
+    try {
+      const [user] = await pool.execute(
+        `SELECT * FROM usuario WHERE nome=?`,
+        [nome],
+      );
+      return user[0];
+    } catch (error) {
+      throw error;
+    }
+  },
   async updateUsuario(nome, senha, nivel_acesso, id) {
     try {
       const result = await pool.execute(

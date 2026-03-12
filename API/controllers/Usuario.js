@@ -1,6 +1,9 @@
 import Usuario from "../models/Usuario.js";
 import argon2 from "argon2";
-import crypto from "crypto";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
+
+const PEPPER = process.env.PEPPER;
 
 const UsuarioController = {
   async getUsuarios(_, res) {
@@ -55,12 +58,11 @@ const UsuarioController = {
         });
       }
 
-      const encryptedPass = await argon2.hash(senha, {
+      const encryptedPass = await argon2.hash(senha + PEPPER, {
         type: argon2.argon2id,
         memoryCost: 2 ** 16,
         parallelism: 4,
         timeCost: 3,
-        salt: crypto.randomBytes(16),
       });
 
       const result = await Usuario.addUsuario(
@@ -73,6 +75,58 @@ const UsuarioController = {
         status: 201,
         msg: "Usuario criado com sucesso!",
         result,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: 500,
+        error: error.message,
+      });
+    }
+  },
+  async login(req, res) {
+    try {
+      const { nome, senha } = req.body;
+
+      if (!nome || !senha) {
+        return res.status(400).json({
+          status: 400,
+          msg: "Todos os campos devem ser preenchidos!",
+        });
+      }
+
+      const user = await Usuario.getUsuarioByNome(nome);
+
+      if (!user) {
+        return res.status(404).json({
+          status: 404,
+          msg: "Usuário não encontrado!",
+        });
+      }
+
+      const verifySenha = await argon2.verify(user.senha, senha + PEPPER);
+
+      if (!verifySenha) {
+        return res.status(400).json({
+          status: 400,
+          msg: "Senha inválida!",
+        });
+      }
+
+      const token = jwt.sign(
+      {
+        id: user.id,
+        nome: user.nome
+      }, 
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES
+      }
+    );
+
+      return res.status(200).json({
+        status: 200,
+        msg: "OK",
+        token,
       });
     } catch (error) {
       res.status(500).json({
