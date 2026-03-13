@@ -114,9 +114,6 @@ DROP TABLE IF EXISTS ensaio;
 
 CREATE TABLE IF NOT EXISTS ensaio(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    num_ensaio INT UNSIGNED NOT NULL,
-    lote INT UNSIGNED NOT NULL,
-    responsavel INT UNSIGNED NOT NULL,
     massa FLOAT NULL,
     lr INT UNSIGNED NULL,
     le INT UNSIGNED NULL,
@@ -126,7 +123,10 @@ CREATE TABLE IF NOT EXISTS ensaio(
     alng FLOAT NULL,
     dobr ENUM("NAO", "OK") NULL,
     caracteristicaGEO ENUM("NAO", "OK") NULL,
+    num_ensaio INT UNSIGNED NULL,
     ocorrencia VARCHAR(255) NULL,
+    lote INT UNSIGNED NOT NULL,
+    responsavel INT UNSIGNED NOT NULL,
     FOREIGN KEY (lote) REFERENCES lote(id),
     FOREIGN KEY (responsavel) REFERENCES responsavel(id)
 );
