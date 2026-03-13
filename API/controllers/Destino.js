@@ -5,16 +5,15 @@ const DestinoController = {
         try{
             const destinos = await Destino.getDestinos();
 
-            if(!destinos || destinos.length === 0){
+            if(!destinos){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Destinos não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                destinos,
+                msg: "OK!",
+                data: destinos,
             });
         }catch (error) {
             res.status(500).json({
@@ -30,15 +29,14 @@ const DestinoController = {
 
             const destinos = await Destino.getDestinoById(id);
 
-            if(!destinos || destinos.length === 0){
+            if(!destinos){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Destinos não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
+                msg: "OK!",
                 data: destinos,
             });
         }catch (error) {
