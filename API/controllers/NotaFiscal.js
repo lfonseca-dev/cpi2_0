@@ -5,21 +5,20 @@ const NotaFiscalController = {
         try{
             const notas = await NotaFiscal.getNotasFiscais();
 
-            if(!notas || notas.length === 0){
+            if(!notas){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Notas não encontradas!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                notas,
+                msg: "OK!",
+                data: notas,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -28,9 +27,8 @@ const NotaFiscalController = {
         try{
             const codigo = req.params.codigo;
 
-            if(!codigo || codigo.length === 0){
+            if(!codigo){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Código não informado!",
                 });
             }
@@ -39,19 +37,18 @@ const NotaFiscalController = {
 
             if(!nota){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nota não encontrada!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                nota,
+                msg: "OK!",
+                data: nota,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -71,14 +68,13 @@ const NotaFiscalController = {
 
 
             return res.status(201).json({
-                status: 201,
                 msg: "Nota Fiscal criada com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -90,16 +86,14 @@ const NotaFiscalController = {
 
             if(!quant_rolos && !peso && !data && !obs && !fornecedor){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
             const nota = await NotaFiscal.getNotaFiscalByCod(codigo);
 
-            if(!nota || nota.length === 0){
+            if(!nota){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nota Fiscal não encontrada!",
                 });
             }
@@ -113,14 +107,13 @@ const NotaFiscalController = {
             const result = await NotaFiscal.updateNotaFiscal(updateQuant_rolos, updatePeso, updateData, updateObs, updateFornecedor, codigo);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Nota Fiscal atualizada com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -131,9 +124,8 @@ const NotaFiscalController = {
 
             const nota = await NotaFiscal.getNotaFiscalByCod(codigo);
 
-            if(!nota || nota.length === 0){
+            if(!nota){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nota Fiscal não encontrada!",
                 });
             }
@@ -141,14 +133,13 @@ const NotaFiscalController = {
             const result = await NotaFiscal.deleteNotaFiscal(codigo);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Nota Fiscal deletada com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },

@@ -5,21 +5,20 @@ const LoteController = {
         try{
             const lotes = await Lote.getLotes();
 
-            if(!lotes || lotes.length === 0){
+            if(!lotes){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Lotes não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                lotes,
+                msg: "OK!",
+                data: lotes,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -30,21 +29,20 @@ const LoteController = {
 
             const lote = await Lote.getLoteById(id);
 
-            if(!lote || lote.length === 0){
+            if(!lote){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Lote não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                lote,
+                msg: "OK!",
+                data: lote,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -55,28 +53,26 @@ const LoteController = {
 
             if(!numero){
                 return res.status(400).json({
-                status: 400,
-                msg: "Número não informado!",
-            });
+                    msg: "Número não informado!",
+                });
             }
 
             const lote = await Lote.getLoteByNum(numero);
 
-            if(!lote || lote.length === 0){
+            if(!lote){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Lote não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                lote,
+                msg: "OK!",
+                data: lote,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -87,22 +83,20 @@ const LoteController = {
 
             if(!numero || !produto_final || !produto_mp || !status){
                 return res.status(400).json({
-                status: 400,
-                msg: "Todos os campos devem ser preenchidos!",
+                    msg: "Todos os campos devem ser preenchidos!",
                 });
             }
 
             const result = await Lote.addLote(numero, produto_final, produto_mp, status);
 
             return res.status(201).json({
-                status: 201,
                 msg: "Lote criado com sucesso!",
                 data: result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -114,16 +108,14 @@ const LoteController = {
 
             if(!numero && !produto_final && !produto_mp && !status){
                 return res.status(400).json({
-                status: 400,
-                msg: "Nenhum campo foi enviado para atualização!",
+                    msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
             const lote = Lote.getLoteById(id);
 
-            if(!lote || lote.length === 0){
+            if(!lote){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Lote não encontrado!",
                 });
             }
@@ -136,14 +128,13 @@ const LoteController = {
             const result = await Lote.updateLote(updateNumero, updateProduto_f, updateProduto_mp, updateStatus, id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Lote atualizado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -154,9 +145,8 @@ const LoteController = {
 
             const lote = Lote.getLoteById(id);
 
-            if(!lote || lote.length === 0){
+            if(!lote){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Lote não encontrado!",
                 });
             }
@@ -164,14 +154,13 @@ const LoteController = {
             const result = await Lote.deleteLote(id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Lote deletado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },

@@ -18,8 +18,8 @@ const EstoqueController = {
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -30,21 +30,20 @@ const EstoqueController = {
 
             const estoque = await Estoque.getEstoqueById(id);
 
-            if(!estoque || estoque.length === 0){
+            if(!estoque){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Estoques não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
+                msg: "OK!",
                 data: estoque,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -55,28 +54,26 @@ const EstoqueController = {
 
             if(!descricao){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Descrição não informado!",
                 });
             }
 
             const estoque = await Estoque.getEstoqueByName(descricao);
 
-            if (!estoque || estoque.length === 0) {
+            if (!estoque) {
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nenhum estoque encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                estoque,
+                msg: "OK!",
+                data: estoque,
             });
         }catch (error){
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -87,28 +84,26 @@ const EstoqueController = {
             
             if(!status){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Status não informado!",
                 });
             }
 
             const estoque = await Estoque.getEstoqueByStatus(status);
 
-            if (!estoque || estoque.length === 0) {
+            if (!estoque) {
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nenhum estoque encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                estoque,
+                msg: "OK!",
+                data: estoque,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -127,14 +122,13 @@ const EstoqueController = {
             const result = await Estoque.addEstoque(descricao, status, obs);
 
             return res.status(201).json({
-                status: 201,
                 msg: "Estoque criado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -146,16 +140,14 @@ const EstoqueController = {
 
             if(!descricao && !status){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
             const estoque = await Estoque.getEstoqueById(id);
 
-            if(!estoque || estoque.length === 0){
+            if(!estoque){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Estoque não encontrado!",
                 });
             }
@@ -167,14 +159,13 @@ const EstoqueController = {
             const result = await Estoque.updateEstoque(updatedDescricao.trim(), updateStatus, updateObs, id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Estoque atualizado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -185,9 +176,8 @@ const EstoqueController = {
 
             const estoque = await Estoque.getEstoqueById(id);
 
-            if(!estoque || estoque.length === 0){
+            if(!estoque){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Estoque não encontrado!",
                 });
             }
@@ -195,14 +185,13 @@ const EstoqueController = {
             const result = await Estoque.deleteEstoque(id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Estoque deletado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },

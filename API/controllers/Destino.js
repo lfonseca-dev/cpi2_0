@@ -18,8 +18,8 @@ const DestinoController = {
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -43,8 +43,8 @@ const DestinoController = {
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -55,28 +55,26 @@ const DestinoController = {
 
             if(!descricao){
                 return res.status(400).json({
-                status: 400,
-                msg: "Descrição não informado!",
-            });
+                    msg: "Descrição não informado!",
+                });
             }
 
             const destino = await Destino.getDestinoByName(descricao);
 
-            if (!destino || destino.length === 0) {
+            if (!destino) {
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nenhum destino encontrado!",
                 });
             }
 
             return res.status(200).json({
-            status: 200,
-            destino,
+                msg: "OK!",
+                data: destino,
             });
         }catch (error){
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -87,22 +85,20 @@ const DestinoController = {
 
             if(!descricao){
                 return res.status(400).json({
-                status: 400,
-                msg: "Todos os campos devem ser preenchidos!",
+                    msg: "Todos os campos devem ser preenchidos!",
                 });
             }
 
             const result = await Destino.addDestino(descricao);
 
             return res.status(201).json({
-                status: 201,
                 msg: "Destino criado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -114,16 +110,14 @@ const DestinoController = {
 
             if(!descricao){
                 return res.status(400).json({
-                status: 400,
-                msg: "Nenhum campo foi enviado para atualização!",
+                    msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
             const destino = await Destino.getDestinoById(id);
 
-            if(!destino || destino.length === 0){
+            if(!destino){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Destino não encontrado!",
                 });
             }
@@ -133,14 +127,13 @@ const DestinoController = {
             const result = await Destino.updateDestino(updatedDescricao.trim(), id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Destino atualizado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -151,9 +144,8 @@ const DestinoController = {
 
             const destino = await Destino.getDestinoById(id);
 
-            if(!destino || destino.length === 0){
+            if(!destino){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Destino não encontrado!",
                 });
             }
@@ -161,14 +153,13 @@ const DestinoController = {
             const result = await Destino.deleteDestino(id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Destino deletado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },

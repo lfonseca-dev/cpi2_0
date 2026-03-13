@@ -5,21 +5,20 @@ const EntradaEstoqueController = {
         try{
             const entradas = await EntradaEstoque.getEntradasEstoque();
 
-            if(!entradas || entradas.length === 0){
+            if(!entradas){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Entradas não encontradas!"
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                entradas,
+                msg: "OK!",
+                data: entradas,
             })
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -32,19 +31,18 @@ const EntradaEstoqueController = {
 
             if(!entrada){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Entrada não encontrada!"
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                entrada,
+                msg: "OK!",
+                data: entrada,
             })
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -55,7 +53,6 @@ const EntradaEstoqueController = {
 
             if(!numero_bobina || !carbono || !corrida || !peso || !nota_fiscal || !local_estoque || !produto){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Todos os campos devem ser preenchidos!",
                 });   
             }
@@ -63,14 +60,13 @@ const EntradaEstoqueController = {
             const result = await EntradaEstoque.addEntradasEstoque(numero_bobina, carbono, corrida, peso, nota_fiscal, local_estoque, produto);
 
             return res.status(201).json({
-                status: 201,
                 msg: "Entrada criada com sucesso!",
-                data: result,
+                result,
             })
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -82,7 +78,6 @@ const EntradaEstoqueController = {
 
             if(!numero_bobina && !carbono && !corrida && !peso && !nota_fiscal && !local_estoque && !produto){
                 return res.status(400).json({
-                    status: 400,
                     msg: "Nenhum campo foi enviado para atualização!",
                 });   
             }
@@ -91,7 +86,6 @@ const EntradaEstoqueController = {
 
             if(!entrada){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Entrada não encontrada!",
                 });
             }
@@ -108,14 +102,13 @@ const EntradaEstoqueController = {
                 updateN_bobina, updateCarbono, updateCorrida, updatePeso, updateN_fiscal, updateL_estoque, updateProduto, id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Entrada atualizada com sucesso!",
-                data: result,
+                result,
             })
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -128,7 +121,6 @@ const EntradaEstoqueController = {
 
             if(!entrada){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Entrada não encontrada!",
                 });
             }
@@ -136,14 +128,13 @@ const EntradaEstoqueController = {
             const result = await EntradaEstoque.deleteEntradasEstoque(id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Entrada deletada com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },

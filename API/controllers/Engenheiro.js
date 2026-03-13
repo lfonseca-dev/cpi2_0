@@ -5,21 +5,20 @@ const EngenheiroController = {
         try{
             const engenheiros = await Engenheiro.getEngenheiros();
 
-            if(!engenheiros || engenheiros.length === 0){
+            if(!engenheiros){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Engenheiros não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
-                engenheiros,
+                msg: "OK!",
+                data: engenheiros,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -30,21 +29,20 @@ const EngenheiroController = {
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
-            if(!engenheiro || engenheiro.length === 0){
+            if(!engenheiro){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Engenheiro não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
+                msg: "OK!",
                 data: engenheiro,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -55,28 +53,26 @@ const EngenheiroController = {
 
             if(!nome){
                 return res.status(400).json({
-                status: 400,
-                msg: "Nome não informado!",
-            });
+                    msg: "Nome não informado!",
+                });
             }
 
             const engenheiro = await Engenheiro.getEngenheiroByName(nome);
 
-            if (!engenheiro || engenheiro.length === 0) {
+            if (!engenheiro) {
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nenhum engenheiro encontrado!",
                 });
             }
 
             return res.status(200).json({
-            status: 200,
-            engenheiro,
+                msg: "OK!",
+                data: engenheiro,
             });
         }catch (error){
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -87,22 +83,20 @@ const EngenheiroController = {
 
             if(!nome){
                 return res.status(400).json({
-                status: 400,
-                msg: "Todos os campos devem ser preenchidos!",
+                    msg: "Todos os campos devem ser preenchidos!",
                 });
             }
 
             const result = await Engenheiro.addEngenheiro(nome);
 
             return res.status(201).json({
-                status: 201,
                 msg: "Engenheiro criado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -114,16 +108,14 @@ const EngenheiroController = {
 
             if(!nome){
                 return res.status(400).json({
-                status: 400,
-                msg: "Nenhum campo foi enviado para atualização!",
+                    msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
-            if(!engenheiro || engenheiro.length === 0){
+            if(!engenheiro){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Engenheiro não encontrado!",
                 });
             }
@@ -133,14 +125,13 @@ const EngenheiroController = {
             const result = await Engenheiro.updateEngenheiro(updatedNome.trim(), id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Engenheiro atualizado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -151,9 +142,8 @@ const EngenheiroController = {
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
-            if(!engenheiro || engenheiro.length === 0){
+            if(!engenheiro){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Engenheiro não encontrado!",
                 });
             }
@@ -161,14 +151,13 @@ const EngenheiroController = {
             const result = await Engenheiro.deleteEngenheiro(id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Engenheiro deletado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },

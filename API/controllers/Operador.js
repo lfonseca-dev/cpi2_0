@@ -5,9 +5,8 @@ const OperadorController = {
         try{
             const operadores = await Operador.getOperadores();
 
-            if(!operadores || operadores.length === 0){
+            if(!operadores){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Operadores não encontrado!",
                 });
             }
@@ -18,8 +17,8 @@ const OperadorController = {
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -30,21 +29,20 @@ const OperadorController = {
 
             const operador = await Operador.getOperadorById(id);
 
-            if(!operador || operador.length === 0){
+            if(!operador){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Operador não encontrado!",
                 });
             }
 
             return res.status(200).json({
-                status: 200,
+                msg: "OK!",
                 data: operador,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -55,28 +53,26 @@ const OperadorController = {
 
             if(!nome){
                 return res.status(400).json({
-                status: 400,
                 msg: "Nome não informado!",
             });
             }
 
             const operador = await Operador.getOperadorByName(nome);
 
-            if (!operador || operador.length === 0) {
+            if (!operador) {
                 return res.status(404).json({
-                    status: 404,
                     msg: "Nenhum operador encontrado!",
                 });
             }
 
             return res.status(200).json({
-            status: 200,
-            operador,
+                msg: "OK!",
+                data: operador,
             });
         }catch (error){
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -87,22 +83,20 @@ const OperadorController = {
 
             if(!nome || !funcao){
                 return res.status(400).json({
-                status: 400,
-                msg: "Todos os campos devem ser preenchidos!",
+                    msg: "Todos os campos devem ser preenchidos!",
                 });
             }
 
             const result = await Operador.addOperador(nome, funcao);
 
             return res.status(201).json({
-                status: 201,
                 msg: "Operador criado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -114,16 +108,14 @@ const OperadorController = {
 
             if(!nome && !funcao){
                 return res.status(400).json({
-                status: 400,
-                msg: "Nenhum campo foi enviado para atualização!",
+                    msg: "Nenhum campo foi enviado para atualização!",
                 });
             }
 
             const operador = await Operador.getOperadorById(id);
 
-            if(!operador || operador.length === 0){
+            if(!operador){
                 return res.status(404).json({
-                    status: 404,
                     msg: "Operador não encontrado!",
                 });
             }
@@ -134,14 +126,13 @@ const OperadorController = {
             const result = await Operador.updateOperador(updatedNome.trim(), updatedFuncao, id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Operador atualizado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
@@ -152,7 +143,7 @@ const OperadorController = {
 
             const operador = await Operador.getOperadorById(id);
 
-            if(!operador || operador.length === 0){
+            if(!operador){
                 return res.status(404).json({
                     status: 404,
                     msg: "Operador não encontrado!",
@@ -162,14 +153,13 @@ const OperadorController = {
             const result = await Operador.deleteOperador(id);
 
             return res.status(200).json({
-                status: 200,
                 msg: "Operador deletado com sucesso!",
-                data: result,
+                result,
             });
         }catch (error) {
             res.status(500).json({
-                status: 500,
-                data: error.message,
+                msg: "Erro interno do servidor!",
+                error: error.message,
             });
         }
     },
