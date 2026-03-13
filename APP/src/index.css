@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+body {
+    overflow-x: hidden;
+}
 .shadow {
     box-shadow: 0 0 15px black;
 }
@@ -8,7 +11,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-
+    
     transition: .3s;
     gap: 10px;
 }
@@ -23,12 +26,12 @@
 .link::before {
     content: '';
     position: absolute;
-
+    
     background: black;
     bottom: 0;
     width: 0;
     height: 2px;
 }
-.link.cadastro:hover {
-    
+.visivel{
+    transform: translateY(100%);
 }
