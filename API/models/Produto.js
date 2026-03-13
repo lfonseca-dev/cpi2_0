@@ -3,12 +3,7 @@ import pool from "../config/pool.js";
 const Produto = {
   async getAllProdutos() {
     try {
-      const [produtos] = await pool.execute(`SELECT 
-      p.id, p.descricao, p.bitola, p.peso, p.categoria AS categoriaId,
-      c.descricao AS categoria
-      FROM produto p
-    INNER JOIN categoria c 
-      ON p.categoria = c.id;`);
+      const [produtos] = await pool.execute(`SELECT id, descricao, bitola, peso, categoria FROM produto;`);
       return produtos;
     } catch (error) {
       throw error;
@@ -16,15 +11,23 @@ const Produto = {
   },
   async getProdutoById(id) {
     try {
-      const [produto] = await pool.execute(`SELECT 
-      p.id, p.descricao, p.bitola, p.peso, p.categoria AS categoriaId,
-      c.descricao AS categoria
-      FROM produto p
-    INNER JOIN categoria c 
-      ON p.categoria = c.id 
-    WHERE p.id=?`,
+      const [produto] = await pool.execute(
+        `SELECT id, descricao, bitola, peso, categoriaFROM produto WHERE p.id=?`,
         [id],
       );
+      return produto[0];
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getProdutoByDesc(descricao) {
+    try {
+      const [produto] = await pool.execute(
+        `SELECT * FROM produto WHERE descricao LIKE ?`,
+        [`${descricao}%`],
+      );
+
       return produto[0];
     } catch (error) {
       throw error;

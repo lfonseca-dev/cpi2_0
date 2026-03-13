@@ -40,6 +40,30 @@ const ProdutoController = {
     }
   },
 
+  async getProdutoByDesc(req, res) {
+    try {
+      const { descricao } = req.params;
+
+      const produto = await Produto.getCategoriaByDesc(descricao);
+
+      if (!produto) {
+        return res.status(404).json({
+          msg: "Categoria não encontrada",
+        });
+      }
+
+      return res.status(200).json({
+        msg: "OK!",
+        data: produto,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        msg: "Erro interno do servidor!",
+        error: error.message,
+      });
+    }
+  },
+
   async addProduto(req, res) {
     try {
       const { descricao, bitola, peso, categoria } = req.body;
