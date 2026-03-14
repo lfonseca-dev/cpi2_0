@@ -1,15 +1,9 @@
 import EntradaEstoque from "../models/EntradaEstoque.js";
 
 const EntradaEstoqueController = {
-    async getEntradasEstoque(_, res) {
+    async getAllEntradasEstoque(_, res) {
         try{
-            const entradas = await EntradaEstoque.getEntradasEstoque();
-
-            if(!entradas){
-                return res.status(404).json({
-                    msg: "Entradas não encontradas!"
-                });
-            }
+            const entradas = await EntradaEstoque.getAllEntradasEstoque();
 
             return res.status(200).json({
                 msg: "OK!",
@@ -25,7 +19,7 @@ const EntradaEstoqueController = {
 
     async getEntradaEstoqueById(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const entrada = await EntradaEstoque.getEntradasEstoqueById(id);
 
@@ -74,7 +68,7 @@ const EntradaEstoqueController = {
     async updateEntradaEstoque(req, res) {
         try{
             const {numero_bobina, carbono, corrida, peso, nota_fiscal, local_estoque, produto} = req.body;
-            const id = req.params.id;
+            const { id } = req.params;
 
             if(!numero_bobina && !carbono && !corrida && !peso && !nota_fiscal && !local_estoque && !produto){
                 return res.status(400).json({
@@ -115,7 +109,7 @@ const EntradaEstoqueController = {
 
     async deleteEntradaEstoque(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const entrada = await EntradaEstoque.getEntradasEstoqueById(id);
 

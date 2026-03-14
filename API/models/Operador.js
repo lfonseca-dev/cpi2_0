@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const Operador = {
-    async getOperadores() {
+    async getAllOperadores() {
         try{
             const [operadores] = await pool.execute(`SELECT * FROM operador;`);
 

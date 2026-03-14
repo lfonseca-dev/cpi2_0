@@ -1,15 +1,9 @@
 import NotaFiscal from "../models/NotaFiscal.js";
 
 const NotaFiscalController = {
-    async getNotasFiscais(_, res) {
+    async getAllNotasFiscais(_, res) {
         try{
-            const notas = await NotaFiscal.getNotasFiscais();
-
-            if(!notas){
-                return res.status(404).json({
-                    msg: "Notas não encontradas!",
-                });
-            }
+            const notas = await NotaFiscal.getAllNotasFiscais();
 
             return res.status(200).json({
                 msg: "OK!",
@@ -25,7 +19,7 @@ const NotaFiscalController = {
 
     async getNotaFiscalByCod(req, res) {
         try{
-            const codigo = req.params.codigo;
+            const { codigo } = req.params;
 
             if(!codigo){
                 return res.status(400).json({
@@ -82,7 +76,7 @@ const NotaFiscalController = {
     async updateNotaFiscal(req, res) {
         try{
             const {quant_rolos, peso, data, obs, fornecedor} = req.body;
-            const codigo = req.params.codigo;
+            const { codigo } = req.params;
 
             if(!quant_rolos && !peso && !data && !obs && !fornecedor){
                 return res.status(400).json({
@@ -101,7 +95,7 @@ const NotaFiscalController = {
             let updateQuant_rolos = quant_rolos ?? nota.quant_rolos;
             let updatePeso = peso ?? nota.peso;
             let updateData = data ?? nota.data;
-            let updateObs = obs ?? nota.obs ?? null;
+            let updateObs = obs ?? nota.obs;
             let updateFornecedor = fornecedor ?? nota.fornecedor;
 
             const result = await NotaFiscal.updateNotaFiscal(updateQuant_rolos, updatePeso, updateData, updateObs, updateFornecedor, codigo);
@@ -120,7 +114,7 @@ const NotaFiscalController = {
 
     async deleteNotaFiscal(req, res) {
         try{
-            const codigo = req.params.codigo;
+            const { codigo } = req.params;
 
             const nota = await NotaFiscal.getNotaFiscalByCod(codigo);
 

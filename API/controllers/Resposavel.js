@@ -1,15 +1,9 @@
 import Resposavel from "../models/Resposavel.js";
 
 const ResponsavelController = {
-    async getResponsaveis(_, res) {
+    async getAllResponsaveis(_, res) {
         try{
-            const responsaveis = await Resposavel.getResponsaveis();
-
-            if(!responsaveis){
-                return res.status(404).json({
-                    msg: "Rsponsáveis não encontrado!",
-                });
-            }
+            const responsaveis = await Resposavel.getAllResponsaveis();
 
             return res.status(200).json({
                 msg: "OK!",
@@ -25,9 +19,9 @@ const ResponsavelController = {
 
     async getResponsavelById(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
-            const responsavel = await Resposavel.getResponsavelById();
+            const responsavel = await Resposavel.getResponsavelById(id);
 
             if(!responsavel){
                 return res.status(404).json({
@@ -49,7 +43,7 @@ const ResponsavelController = {
 
     async getResponsavelByName(req, res){
         try{
-            const nome = req.params.nome;
+            const { nome } = req.params;
 
             if(!nome){
                 return res.status(400).json({
@@ -81,7 +75,7 @@ const ResponsavelController = {
         try{
             const {nome, obs, engenheiro,} = req.body;
 
-            if(!nome || !obs || !engenheiro){
+            if(!nome || !engenheiro){
                 return res.status(400).json({
                 status: 400,
                 msg: "Todos os campos devem ser preenchidos!",
@@ -105,7 +99,7 @@ const ResponsavelController = {
     async updateResponsavel(req, res){
         try{
             const {nome, obs, engenheiro} = req.body;
-            const id = req.params.id;
+            const { id } = req.params;
 
             if(!nome && !obs && !engenheiro){
                 return res.status(400).json({
@@ -124,7 +118,7 @@ const ResponsavelController = {
             }
 
             let updatedNome = nome ?? responsavel.nome;
-            let updatedObs = obs ?? responsavel.obs ?? null;
+            let updatedObs = obs ?? responsavel.obs ;
             let updateEngenheiro = engenheiro ?? responsavel.engenheiro;
 
             const result = await Operador.updateOperador(updatedNome.trim(), updatedObs, updateEngenheiro, id);
@@ -143,7 +137,7 @@ const ResponsavelController = {
 
     async deleteResponsavel(req, res){
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const responsavel = await Resposavel.getResponsavelById(id);
 

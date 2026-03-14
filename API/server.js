@@ -1,14 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import "dotenv/config";
-import OperadorRouter from "./routes/Operador.js";
-import EngenheiroRouter from "./routes/Engenheiro.js";
-import DestinoRouter from "./routes/Destino.js"; 
-import EstoqueRouter from "./routes/Estoque.js";
-import ResponsavelRouter from "./routes/Resposavel.js";
-import NotaFiscalRouter from "./routes/NotaFiscal.js";
-import EntradaEstoqueRouter from "./routes/EntradaEstoque.js";
-import LoteRouter from "./routes/Lote.js";
+
+import OperadorRouter from "./routes/operador.js";
+import EngenheiroRouter from "./routes/engenheiro.js";
+import DestinoRouter from "./routes/destino.js"; 
+import EstoqueRouter from "./routes/estoque.js";
+import ResponsavelRouter from "./routes/resposavel.js";
+import NotaFiscalRouter from "./routes/notaFiscal.js";
+import EntradaEstoqueRouter from "./routes/entradaEstoque.js";
+import LoteRouter from "./routes/lote.js";
 
 const PORT = process.env.API_PORT;
 const api = express();

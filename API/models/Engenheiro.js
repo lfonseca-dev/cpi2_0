@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const Engenheiro = {
-    async getEngenheiros() {
+    async getAllEngenheiros() {
         try{
             const [engenheiros] = await pool.execute(`SELECT * FROM engenheiro;`);
 

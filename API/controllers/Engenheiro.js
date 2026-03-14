@@ -1,15 +1,9 @@
 import Engenheiro from "../models/Engenheiro.js";
 
 const EngenheiroController = {
-    async getEngenheiros(_, res) {
+    async getAllEngenheiros(_, res) {
         try{
-            const engenheiros = await Engenheiro.getEngenheiros();
-
-            if(!engenheiros){
-                return res.status(404).json({
-                    msg: "Engenheiros não encontrado!",
-                });
-            }
+            const engenheiros = await Engenheiro.getAllEngenheiros();
 
             return res.status(200).json({
                 msg: "OK!",
@@ -25,7 +19,7 @@ const EngenheiroController = {
 
     async getEngenheiroById(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 
@@ -49,7 +43,7 @@ const EngenheiroController = {
 
     async getEngenheiroByName(req, res){
         try{
-            const nome = req.params.nome;
+            const { nome } = req.params;
 
             if(!nome){
                 return res.status(400).json({
@@ -79,7 +73,7 @@ const EngenheiroController = {
 
     async addEngenheiro(req, res){
         try{
-            const {nome} = req.body;
+            const { nome } = req.body;
 
             if(!nome){
                 return res.status(400).json({
@@ -104,7 +98,7 @@ const EngenheiroController = {
     async updateEngenheiro(req, res){
         try{
             const {nome} = req.body;
-            const id = req.params.id;
+            const { id } = req.params;
 
             if(!nome){
                 return res.status(400).json({
@@ -138,7 +132,7 @@ const EngenheiroController = {
 
     async deleteEngenheiro(req, res){
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const engenheiro = await Engenheiro.getEngenheiroById(id);
 

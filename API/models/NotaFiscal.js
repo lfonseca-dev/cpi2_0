@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const NotaFiscal = {
-    async getNotasFiscais(){
+    async getAllNotasFiscais(){
         try{
             const [notas] = await pool.execute(`SELECT * FROM nota_fiscal;`);
 

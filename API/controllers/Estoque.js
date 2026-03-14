@@ -1,16 +1,9 @@
 import Estoque from "../models/Estoque.js";
 
 const EstoqueController = {
-    async getEstoques(_, res) {
+    async getAllEstoques(_, res) {
         try{
-            const estoques = await Estoque.getEstoques();
-
-            if(!estoques || estoques.length === 0){
-                return res.status(404).json({
-                    status: 404,
-                    msg: "Estoques não encontrado!",
-                });
-            }
+            const estoques = await Estoque.getAllEstoques();
 
             return res.status(200).json({
                 status: 200,
@@ -26,7 +19,7 @@ const EstoqueController = {
 
     async getEstoqueById(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const estoque = await Estoque.getEstoqueById(id);
 
@@ -50,7 +43,7 @@ const EstoqueController = {
 
     async getEstoqueByName(req, res){
         try{
-            const descricao = req.params.descricao;
+            const { descricao } = req.params;
 
             if(!descricao){
                 return res.status(400).json({
@@ -80,7 +73,7 @@ const EstoqueController = {
 
     async getEstoqueByStatus(req, res){
         try{    
-            const {status} = req.params;
+            const { status } = req.params;
             
             if(!status){
                 return res.status(400).json({
@@ -112,7 +105,7 @@ const EstoqueController = {
         try{
             const {descricao, status, obs} = req.body;
 
-            if(!descricao){
+            if(!descricao || !status){
                 return res.status(400).json({
                 status: 400,
                 msg: "Todos os campos devem ser preenchidos!",
@@ -136,7 +129,7 @@ const EstoqueController = {
     async updateEstoque(req, res){
         try{
             const {descricao, status, obs} = req.body;
-            const id = req.params.id;
+            const { id } = req.params;
 
             if(!descricao && !status){
                 return res.status(400).json({
@@ -154,7 +147,7 @@ const EstoqueController = {
 
             let updatedDescricao = descricao ?? estoque.descricao;
             let updateStatus = status ?? estoque.status;
-            let updateObs = obs ?? estoque.obs ?? null;
+            let updateObs = obs ?? estoque.obs;
 
             const result = await Estoque.updateEstoque(updatedDescricao.trim(), updateStatus, updateObs, id);
 
@@ -172,7 +165,7 @@ const EstoqueController = {
 
     async deleteEstoque(req, res){
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const estoque = await Estoque.getEstoqueById(id);
 

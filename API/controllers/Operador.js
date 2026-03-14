@@ -1,15 +1,9 @@
 import Operador from "../models/Operador.js";
 
 const OperadorController = {
-    async getOperadores(_, res) {
+    async getAllOperadores(_, res) {
         try{
-            const operadores = await Operador.getOperadores();
-
-            if(!operadores){
-                return res.status(404).json({
-                    msg: "Operadores não encontrado!",
-                });
-            }
+            const operadores = await Operador.getAllOperadores();
 
             return res.status(200).json({
                 status: 200,
@@ -25,7 +19,7 @@ const OperadorController = {
 
     async getOperadorById(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const operador = await Operador.getOperadorById(id);
 
@@ -49,7 +43,7 @@ const OperadorController = {
 
     async getOperadorByName(req, res){
         try{
-            const nome = req.params.nome;
+            const { nome } = req.params;
 
             if(!nome){
                 return res.status(400).json({
@@ -104,7 +98,7 @@ const OperadorController = {
     async updateOperador(req, res){
         try{
             const {nome, funcao} = req.body;
-            const id = req.params.id;
+            const { id } = req.params;
 
             if(!nome && !funcao){
                 return res.status(400).json({
@@ -139,7 +133,7 @@ const OperadorController = {
 
     async deleteOperador(req, res){
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const operador = await Operador.getOperadorById(id);
 

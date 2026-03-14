@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const Lote = {
-    async getLotes(){
+    async getAllLotes(){
         try{
             const [lotes] = await pool.execute(`SELECT * FROM lote;`);
 
@@ -21,20 +21,10 @@ const Lote = {
         }
     },
 
-    async getLoteByNum(numero){
+    async addLote(produto_final, produto_mp, status){
         try{
-            const [lote] = await pool.execute(`SELECT * FROM lote WHERE numero LIKE ?;`, [`${numero}%`]);
-
-            return lote[0];
-        }catch (error) {
-            throw error;
-        }
-    },
-
-    async addLote(numero, produto_final, produto_mp, status){
-        try{
-            const [result] = await pool.execute(`INSERT INTO lote(numero, produto_final, produto_mp, status) VALUES(?, ?, ?, ?);`, 
-                [numero, produto_final, produto_mp, status]);
+            const [result] = await pool.execute(`INSERT INTO lote(produto_final, produto_mp, status) VALUES(?, ?, ?, ?);`, 
+                [produto_final, produto_mp, status]);
 
             return result;
         }catch (error) {
@@ -42,10 +32,10 @@ const Lote = {
         }
     },
 
-    async updateLote(numero, produto_final, produto_mp, status, id){
+    async updateLote(produto_final, produto_mp, status, id){
         try{
-            const [result] = await pool.execute(`UPDATE lote SET numero= ?, produto_final= ?, produto_mp= ?, status= ? WHERE id= ?;`, 
-                [numero, produto_final, produto_mp, status, id]);
+            const [result] = await pool.execute(`UPDATE lote SET produto_final= ?, produto_mp= ?, status= ? WHERE id= ?;`, 
+                [produto_final, produto_mp, status, id]);
 
             return result;
         }catch (error) {

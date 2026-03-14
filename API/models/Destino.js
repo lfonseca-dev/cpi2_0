@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const Destino = {
-    async getDestinos(){
+    async getAllDestinos(){
         try{
             const [destinos] = await pool.execute(`SELECT * FROM destino;`);
             

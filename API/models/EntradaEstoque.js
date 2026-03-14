@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const EntradaEstoque = {
-    async getEntradasEstoque() {
+    async getAllEntradasEstoque() {
         try{
             const [entradas] = await pool.execute(`SELECT * FROM entrada_estoque;`);
             

@@ -1,7 +1,7 @@
 import pool from "../config/pool.js";
 
 const Resposavel = {
-    async getResponsaveis(){
+    async getAllResponsaveis(){
         try{
             const [responsaveis] = await pool.execute(`SELECT * FROM responsavel;`);
 

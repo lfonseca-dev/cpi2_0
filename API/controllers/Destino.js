@@ -1,15 +1,9 @@
 import Destino from "../models/Destino.js";
 
 const DestinoController = {
-    async getDestinos(_, res) {
+    async getAllDestinos(_, res) {
         try{
-            const destinos = await Destino.getDestinos();
-
-            if(!destinos){
-                return res.status(404).json({
-                    msg: "Destinos não encontrado!",
-                });
-            }
+            const destinos = await Destino.getAllDestinos();
 
             return res.status(200).json({
                 msg: "OK!",
@@ -25,7 +19,7 @@ const DestinoController = {
 
     async getDestinoById(req, res) {
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const destinos = await Destino.getDestinoById(id);
 
@@ -49,7 +43,7 @@ const DestinoController = {
 
     async getDestinoByName(req, res){
         try{
-            const descricao = req.params.descricao;
+            const { descricao } = req.params;
 
             if(!descricao){
                 return res.status(400).json({
@@ -79,7 +73,7 @@ const DestinoController = {
 
     async addDestino(req, res){
         try{
-            const {descricao} = req.body;
+            const { descricao } = req.body;
 
             if(!descricao){
                 return res.status(400).json({
@@ -103,8 +97,8 @@ const DestinoController = {
 
     async updateDestino(req, res){
         try{
-            const {descricao} = req.body;
-            const id = req.params.id;
+            const { descricao } = req.body;
+            const { id } = req.params;
 
             if(!descricao){
                 return res.status(400).json({
@@ -138,7 +132,7 @@ const DestinoController = {
 
     async deleteDestino(req, res){
         try{
-            const id = req.params.id;
+            const { id } = req.params;
 
             const destino = await Destino.getDestinoById(id);
 

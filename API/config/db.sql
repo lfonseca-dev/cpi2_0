@@ -1,3 +1,5 @@
+DROP DATABASE cpi2_0;
+
 CREATE DATABASE IF NOT EXISTS cpi2_0; 
 
 USE cpi2_0;
@@ -59,15 +61,14 @@ CREATE TABLE IF NOT EXISTS responsavel(
 DROP TABLE IF EXISTS destino;
 CREATE TABLE IF NOT EXISTS destino(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    descricao VARCHAR(100)
+    descricao VARCHAR(100) NOT NULL
 );
 
 DROP TABLE IF EXISTS local_estoque; 
 CREATE TABLE IF NOT EXISTS local_estoque(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    descricao VARCHAR(100),
-    status ENUM("LIVRE", "OCUPADO"),
-    obs VARCHAR(255)
+    status ENUM("LIVRE", "OCUPADO") NOT NULL,
+    obs VARCHAR(255) NULL
 );
 
 DROP TABLE IF EXISTS nota_fiscal; 
@@ -101,7 +102,6 @@ DROP TABLE IF EXISTS lote;
 
 CREATE TABLE IF NOT EXISTS lote(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    numero INT UNIQUE NOT NULL,
     produto_final INT UNSIGNED NOT NULL,
     produto_mp INT UNSIGNED NOT NULL,
     status ENUM("EM PRODUCAO", "FINALIZADO"),
@@ -113,9 +113,6 @@ DROP TABLE IF EXISTS ensaio;
 
 CREATE TABLE IF NOT EXISTS ensaio(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    num_ensaio INT UNSIGNED NOT NULL,
-    lote INT UNSIGNED NOT NULL,
-    responsavel INT UNSIGNED NOT NULL,
     massa FLOAT NULL,
     lr INT UNSIGNED NULL,
     le INT UNSIGNED NULL,
@@ -125,7 +122,10 @@ CREATE TABLE IF NOT EXISTS ensaio(
     alng FLOAT NULL,
     dobr ENUM("NAO", "OK") NULL,
     caracteristicaGEO ENUM("NAO", "OK") NULL,
+    num_ensaio INT UNSIGNED NULL,
     ocorrencia VARCHAR(255) NULL,
+    lote INT UNSIGNED NOT NULL,
+    responsavel INT UNSIGNED NOT NULL,
     FOREIGN KEY (lote) REFERENCES lote(id),
     FOREIGN KEY (responsavel) REFERENCES responsavel(id)
 );
