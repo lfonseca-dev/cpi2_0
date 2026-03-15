@@ -10,7 +10,7 @@ import NotFound from './pages/NotFound.jsx';
 function App() {
 
   const [isAuth, setIsAuth] = useState(false);
-  const URL = import.meta.env.API_URL;
+  const URL = import.meta.env.VITE_API_URL;
 
   const validateToken = async () => {
 

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function Login({setIsAuth}) {
     const [showPass, setShowPass] = useState(false);
-    const URL = import.meta.env.API_URL;
+    const URL = import.meta.env.VITE_API_URL;
 
     const [nome, setNome] = useState("");
     const [senha, setSenha] = useState("");
