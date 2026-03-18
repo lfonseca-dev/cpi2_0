@@ -18,7 +18,7 @@ function NavBar() {
                         <FaMagnifyingGlass />
                         <span>Consultar</span>
                     </li>
-                    <li className="link cadastro cursor-pointer hover:text-red-400 flex flex-row items-center gap-[5px] cursor-pointer" 
+                    <li className="link cadastro cursor-pointer hover:text-red-400 flex flex-row items-center gap-[5px]" 
                     onMouseEnter={() => setCadastroOpen(open => !open)}>
                         <FaCirclePlus />
                         <span>Cadastro</span>
